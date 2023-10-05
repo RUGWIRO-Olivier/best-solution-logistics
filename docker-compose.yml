@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+
+  mariadb:
+    image: mariadb:10.6.2
+    container_name: "cargo_db"
+    restart: always
+    networks:
+      - "cargo_network"
+    ports:
+      - "3302:3306"
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "cargo2"
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-time-zone=+02:00']
+    volumes:
+      - mariadb-data:/var/cargo-lib/mysql/
+
+  cargomanager:
+    image: cargo-manager:v1
+    container_name: cargomanager
+    environment:
+      SERVER_PORT: "8082"
+      DB_HOSTNAME: "mariadb"
+      DB_PORT: "3306"
+      DB_DATABASE: "cargo2"
+      DB_USER: "root"
+      DB_PASS: "password"
+    restart: on-failure
+    networks:
+      - "cargo_network"
+    ports:
+      - "8082:8082"
+    depends_on:
+      - "mariadb"
+
+volumes:
+  mariadb-data:
+    external: true
+
+networks:
+  cargo_network:
+    name: cargo_network
