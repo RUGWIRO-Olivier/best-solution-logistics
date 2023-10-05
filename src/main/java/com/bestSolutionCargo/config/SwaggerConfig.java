@@ -29,17 +29,17 @@ public class SwaggerConfig {
     @Bean
     OpenAPI customOpenAPI() {
         return new OpenAPI().info(
-                new Info().title("BK Agency Banking").version(appVersion)
-                        .description("The Bank of Kigali Agency banking backend API documentation")
-                        .license(new License().name("BK All rights reserved").url("#"))
+                new Info().title("Best Solution Logistics").version(appVersion)
+                        .description("Best Solution Logistics backend API documentation")
+                        .license(new License().name("Best Solution Logistics All rights reserved").url("#"))
         );
     }
 
     @Bean
-    GroupedOpenApi agencyBankingOpenApi() {
+    GroupedOpenApi bestSolutionLogisticsOpenApi() {
         return GroupedOpenApi
                 .builder()
-                .group("Agency Banking")
+                .group("Best Solution Logistics")
                 .pathsToMatch("/**")
                 .addOperationCustomizer(new GlobalHeaderAdder())
                 .build();
